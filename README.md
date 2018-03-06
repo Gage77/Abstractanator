@@ -5,8 +5,11 @@
 #### Hunter Black, Benjamin De Toy, Evan Johnston
 
 ## Tasks:
+
 Note that most of the tasks in both groups can happen simultaneously, as they do not rely on each other until near the end.
+
 #### Abstractanator Application
+
 [ ] Setup display window
 [ ] Establish look and feel of application (where should things go)
 [ ] Add menu bar
@@ -18,6 +21,7 @@ Note that most of the tasks in both groups can happen simultaneously, as they do
 [ ] Add saving and exporting (save abstracted image)
 [ ] Cleanup window and make it colorful / nice looking
 #### VR Environment
+
 [ ] Setup basic environment
 [ ] Port in desktop mirroring
 [ ] Allow adding of basic polyhedrons to environment
