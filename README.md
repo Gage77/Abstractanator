@@ -4,6 +4,29 @@
 
 #### Hunter Black, Benjamin De Toy, Evan Johnston
 
+## Tasks:
+Note that most of the tasks in both groups can happen simultaneously, as they do not rely on each other until near the end.
+#### Abstractanator Application
+[ ] Setup display window
+[ ] Establish look and feel of application (where should things go)
+[ ] Add menu bar
+[ ] Add panel to hold abstraction widgets
+[ ] Add panel to hold loaded in image
+[ ] Add widget for RGB abstraction
+[ ] Add widget for B/W abstraction
+[ ] Add widget for "Folding" abstraction
+[ ] Add saving and exporting (save abstracted image)
+[ ] Cleanup window and make it colorful / nice looking
+#### VR Environment
+[ ] Setup basic environment
+[ ] Port in desktop mirroring
+[ ] Allow adding of basic polyhedrons to environment
+[ ] Allow scaling of polyhedrons
+[ ] Add basic lighting effect
+[ ] Allow for moving around of lighting effect
+[ ] Allow for importing of images from desktop as texture
+[ ] Setup application of texture to polyhedron in the environment
+
 ## Overall Process:
 
 This document serves as an organization/vision document for the Abstractanator with VR Environment Implementation project. Our goals, roles, and tasks will outline the major features that this project will contain, with the goals containing the larger, overarching features that will be present, and the roles and tasks outlining who on our team will be responsible for creating/implementing said goals.
@@ -52,9 +75,6 @@ The first major role will be management, in particular time management and accou
 The second major role will be through the actual development of both applications (i.e. the programming). This role encompasses all aspects associated with the actual coding of each application, independent of the implementation of said development. We have all decided that we will all work on the code for this project collaboratively rather than divide the code into sections.
 
 The next role will be the seamless implementation of the final project. Ensuring that the features do not conflict with one another is tantamount to success.
-
-## Tasks:
-The tasks are the implementation of each of the features. For the Abstractanator, most of the features are individually simplistic enough that each of the initial tasks could possibly be completed in parallel to ensure maximum efficiency. Following that, however, more complex features loom, and we will likely need to gather in person and discuss how we would implement them.
 
 ## Milestones:
 The milestones for the Abstractanator are each of the features that we intended to implement. Once again, the features will be implemented roughly in the order that they are listed on this project plan.
