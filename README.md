@@ -10,26 +10,26 @@ Note that most of the tasks in both groups can happen simultaneously, as they do
 
 #### Abstractanator Application
 
-[ ] Setup display window
-[ ] Establish look and feel of application (where should things go)
-[ ] Add menu bar
-[ ] Add panel to hold abstraction widgets
-[ ] Add panel to hold loaded in image
-[ ] Add widget for RGB abstraction
-[ ] Add widget for B/W abstraction
-[ ] Add widget for "Folding" abstraction
-[ ] Add saving and exporting (save abstracted image)
-[ ] Cleanup window and make it colorful / nice looking
+- [ ] Setup display window
+- [ ] Establish look and feel of application (where should things go)
+- [ ] Add menu bar
+- [ ] Add panel to hold abstraction widgets
+- [ ] Add panel to hold loaded in image
+- [ ] Add widget for RGB abstraction
+- [ ] Add widget for B/W abstraction
+- [ ] Add widget for "Folding" abstraction
+- [ ] Add saving and exporting (save abstracted image)
+- [ ] Cleanup window and make it colorful / nice looking
 #### VR Environment
 
-[ ] Setup basic environment
-[ ] Port in desktop mirroring
-[ ] Allow adding of basic polyhedrons to environment
-[ ] Allow scaling of polyhedrons
-[ ] Add basic lighting effect
-[ ] Allow for moving around of lighting effect
-[ ] Allow for importing of images from desktop as texture
-[ ] Setup application of texture to polyhedron in the environment
+- [ ] Setup basic environment
+- [ ] Port in desktop mirroring
+- [ ] Allow adding of basic polyhedrons to environment
+- [ ] Allow scaling of polyhedrons
+- [ ] Add basic lighting effect
+- [ ] Allow for moving around of lighting effect
+- [ ] Allow for importing of images from desktop as texture
+- [ ] Setup application of texture to polyhedron in the environment
 
 ## Overall Process:
 
