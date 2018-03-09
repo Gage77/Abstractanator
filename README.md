@@ -10,11 +10,11 @@ Note that most of the tasks in both groups can happen simultaneously, as they do
 
 #### Abstractanator Application
 
-- [ ] Setup display window
-- [ ] Establish look and feel of application (where should things go)
+- [X] Setup display window
+- [X] Establish look and feel of application (where should things go)
 - [ ] Add menu bar
-- [ ] Add panel to hold abstraction widgets
-- [ ] Add panel to hold loaded in image
+- [X] Add panel to hold abstraction widgets
+- [X] Add panel to hold loaded in image
 - [ ] Add widget for RGB abstraction
 - [ ] Add widget for B/W abstraction
 - [ ] Add widget for "Folding" abstraction

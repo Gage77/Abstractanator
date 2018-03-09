@@ -41,12 +41,15 @@ public final class View extends JFrame
 
   public View(int w, int h)
   {
+    // Setup the frame (this class)
     this.h = h;
     this.w = w;
-
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(w, h);
+    this.setTitle("Abstractanator");
 
+    // setup a panel that will hold the two inner panels for the right hand side
+    // of the application (I/O, abstraction widgets)
     JPanel rightHandSidePanel = new JPanel();
     rightHandSidePanel.setLayout(new BoxLayout(rightHandSidePanel,
       BoxLayout.Y_AXIS));
@@ -57,7 +60,10 @@ public final class View extends JFrame
 		****************************************/
 
     JPanel imagePanel = new JPanel();
-    imagePanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+    imagePanel.setBorder(BorderFactory.createCompoundBorder(
+      BorderFactory.createLineBorder(Color.black, 2),
+      BorderFactory.createTitledBorder("Image")
+    ));
 
     this.getContentPane().add(imagePanel, BorderLayout.CENTER);
 
@@ -67,8 +73,25 @@ public final class View extends JFrame
 		****************************************/
 
     JPanel ioPanel = new JPanel();
-    ioPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+    ioPanel.setLayout(new BorderLayout());
+    ioPanel.setBorder(BorderFactory.createCompoundBorder(
+      BorderFactory.createLineBorder(Color.black, 2),
+      BorderFactory.createTitledBorder("I/O")
+    ));
 
+    JPanel innerIOPanel = new JPanel();
+    innerIOPanel.setLayout(new GridLayout(5, 1));
+
+    JButton importButton = new JButton("Import Image");
+    JButton exportButton = new JButton("Export Image");
+    JLabel emptyLabel = new JLabel("");
+
+    innerIOPanel.add(emptyLabel);
+    innerIOPanel.add(importButton);
+    innerIOPanel.add(emptyLabel);
+    innerIOPanel.add(exportButton);
+
+    ioPanel.add(innerIOPanel, BorderLayout.CENTER);
     rightHandSidePanel.add(ioPanel);
 
     /****************************************
@@ -76,12 +99,85 @@ public final class View extends JFrame
     * on bottom part of rightHandSidePanel
 		****************************************/
 
-    // Create two panels, one for border and one for title
     JPanel abstractionPanel = new JPanel();
+    abstractionPanel.setLayout(new GridBagLayout());
+    GridBagConstraints c = new GridBagConstraints();
 
     // Add border
-    abstractionPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+    abstractionPanel.setBorder(BorderFactory.createCompoundBorder(
+      BorderFactory.createLineBorder(Color.black, 2),
+      BorderFactory.createTitledBorder("Abstract Functions")
+    ));
     abstractionPanel.setPreferredSize(new Dimension(w / 4, h / 2));
+
+    // Create all necessary abstraction buttons
+    JButton rgbButton = new JButton("RGB");
+    rgbButton.setToolTipText("test");
+    JButton bwButton = new JButton("Black / White");
+    JButton geomButton = new JButton("Geometric");
+    JButton foldButton = new JButton("Fold");
+
+    // Setup values for spinners
+    int initialSpin = 0;
+    int minSpin = 0;
+    int maxSpin = 10;
+    int stepSpin = 1;
+
+    // Create a SpinnerModel for the framework for JSpinners to be
+    // associated with the buttons above
+    SpinnerNumberModel rgbModel = new SpinnerNumberModel(initialSpin,
+      minSpin, maxSpin, stepSpin);
+    SpinnerNumberModel bwModel = new SpinnerNumberModel(initialSpin,
+      minSpin, maxSpin, stepSpin);
+    SpinnerNumberModel geomModel = new SpinnerNumberModel(initialSpin,
+      minSpin, maxSpin, stepSpin);
+
+    // Create all necessary spinners
+    JSpinner rgbSpin = new JSpinner(rgbModel);
+    JSpinner bwSpin = new JSpinner(bwModel);
+    JSpinner geomSpin = new JSpinner(geomModel);
+
+    // Add it all to the abstraction panel
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.gridx = 0;
+    c.gridy = 0;
+    abstractionPanel.add(rgbSpin, c);
+
+    c.gridx = 1;
+    c.gridy = 0;
+    abstractionPanel.add(rgbButton, c);
+
+    c.gridx = 0;
+    c.gridy = 1;
+    abstractionPanel.add(bwSpin, c);
+
+    c.gridx = 1;
+    c.gridy = 1;
+    abstractionPanel.add(bwButton, c);
+
+    c.gridx = 0;
+    c.gridy = 2;
+    abstractionPanel.add(geomSpin, c);
+
+    c.gridx = 1;
+    c.gridy = 2;
+    abstractionPanel.add(geomButton, c);
+
+    c.gridx = 0;
+    c.gridy = 3;
+    c.gridwidth = 2;
+    abstractionPanel.add(foldButton, c);
+
+    // abstractionPanel.add(rgbSpin);
+    // abstractionPanel.add(rgbButton);
+    // abstractionPanel.add(bwSpin);
+    // abstractionPanel.add(bwButton);
+    // abstractionPanel.add(geomSpin);
+    // abstractionPanel.add(geomButton);
+    // // Don't need a spinner for the fold function
+    // foldButtonPanel.add(foldButton, BorderLayout.CENTER);
+    // abstractionPanel.add()
+    // abstractionPanel.add(foldButton);
 
     // Add panel to rightHandSidePanel in main Jframe
     rightHandSidePanel.add(abstractionPanel);
@@ -92,7 +188,10 @@ public final class View extends JFrame
 		****************************************/
 
     JPanel prevImagePanel = new JPanel();
-    prevImagePanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+    prevImagePanel.setBorder(BorderFactory.createCompoundBorder(
+      BorderFactory.createLineBorder(Color.black, 2),
+      BorderFactory.createTitledBorder("History")
+    ));
     prevImagePanel.setPreferredSize(new Dimension(w / 4, h));
 
     this.getContentPane().add(prevImagePanel, BorderLayout.LINE_START);
