@@ -100,8 +100,7 @@ public final class View extends JFrame
 		****************************************/
 
     JPanel abstractionPanel = new JPanel();
-    abstractionPanel.setLayout(new GridBagLayout());
-    GridBagConstraints c = new GridBagConstraints();
+    abstractionPanel.setLayout(new GridLayout(4, 2));
 
     // Add border
     abstractionPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -131,53 +130,24 @@ public final class View extends JFrame
       minSpin, maxSpin, stepSpin);
     SpinnerNumberModel geomModel = new SpinnerNumberModel(initialSpin,
       minSpin, maxSpin, stepSpin);
+    SpinnerNumberModel foldModel = new SpinnerNumberModel(initialSpin,
+      minSpin, maxSpin, stepSpin);
 
     // Create all necessary spinners
     JSpinner rgbSpin = new JSpinner(rgbModel);
     JSpinner bwSpin = new JSpinner(bwModel);
     JSpinner geomSpin = new JSpinner(geomModel);
+    JSpinner foldSpin = new JSpinner(foldModel);
 
-    // Add it all to the abstraction panel
-    c.fill = GridBagConstraints.HORIZONTAL;
-    c.gridx = 0;
-    c.gridy = 0;
-    abstractionPanel.add(rgbSpin, c);
-
-    c.gridx = 1;
-    c.gridy = 0;
-    abstractionPanel.add(rgbButton, c);
-
-    c.gridx = 0;
-    c.gridy = 1;
-    abstractionPanel.add(bwSpin, c);
-
-    c.gridx = 1;
-    c.gridy = 1;
-    abstractionPanel.add(bwButton, c);
-
-    c.gridx = 0;
-    c.gridy = 2;
-    abstractionPanel.add(geomSpin, c);
-
-    c.gridx = 1;
-    c.gridy = 2;
-    abstractionPanel.add(geomButton, c);
-
-    c.gridx = 0;
-    c.gridy = 3;
-    c.gridwidth = 2;
-    abstractionPanel.add(foldButton, c);
-
-    // abstractionPanel.add(rgbSpin);
-    // abstractionPanel.add(rgbButton);
-    // abstractionPanel.add(bwSpin);
-    // abstractionPanel.add(bwButton);
-    // abstractionPanel.add(geomSpin);
-    // abstractionPanel.add(geomButton);
-    // // Don't need a spinner for the fold function
-    // foldButtonPanel.add(foldButton, BorderLayout.CENTER);
-    // abstractionPanel.add()
-    // abstractionPanel.add(foldButton);
+    // Add it all to the abstraction pane
+    abstractionPanel.add(rgbSpin);
+    abstractionPanel.add(rgbButton);
+    abstractionPanel.add(bwSpin);
+    abstractionPanel.add(bwButton);
+    abstractionPanel.add(geomSpin);
+    abstractionPanel.add(geomButton);
+    abstractionPanel.add(foldSpin);
+    abstractionPanel.add(foldButton);
 
     // Add panel to rightHandSidePanel in main Jframe
     rightHandSidePanel.add(abstractionPanel);
