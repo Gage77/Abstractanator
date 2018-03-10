@@ -17,18 +17,18 @@ public class Abstractanator extends JComponent {
 
         public Abstractanator() {
         	historylist = new ArrayList<AbstractImage>();
-        	
+
             try {
-                image = ImageIO.read(new File("C:\\Users\\Evan\\Desktop\\bird.jpg"));
+                image = ImageIO.read(new File("images/Sample.jpg"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            
+
             //Uncomment / change the limits of i to get different results.
 //            for (int i = 0; i < 4; i++) {
 //            	polarizePixels();
 //            }
-            
+
 //            for (int i = 0; i < 100; i++) {
 //            	randomizePixels();
 //            }
@@ -63,7 +63,7 @@ public class Abstractanator extends JComponent {
 			Random rand = new Random(); //The random to determine how much a color value is adjusted.
 			int p; //The pixel being currently examined in the loop.
 			int alpha, red, green, blue; //The alpha and RGB values of the pixel.
-			
+
 			//The for loop guarantees this function will iterate over the whole image.
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
@@ -74,31 +74,31 @@ public class Abstractanator extends JComponent {
 					red = (p >> 16) & 0xff;
 					green = (p >> 8) & 0xff;
 					blue = p & 0xff;
-					
+
 					//Now determine the new RGB values of the pixel.
 					//It's possible any value won't change at all (if the random value returns 32, 32 - 32 = 0 change).
 					red = red + rand.nextInt(LIMIT * 2 + 1) - LIMIT;
 					green = green + rand.nextInt(LIMIT * 2 + 1) - LIMIT;
 					blue = blue + rand.nextInt(LIMIT * 2 + 1) - LIMIT;
-					
+
 					//The values must be checked to make sure that 0 <= value <= 255.
 					if (red < 0) { red = 0; } else if (red > 255) red = 255;
 					if (green < 0) { green = 0; } else if (green > 255) green = 255;
 					if (blue < 0) { blue = 0; } else if (blue > 255) blue = 255;
-					
+
 					//Now to set the pixel value to 0 and give it the new values.
 					p = 0;
 					p = p | blue | (green << 8) | (red << 16) | (alpha << 24);
-					
+
 					//Finally to set the image's corresponding pixel with the new values.
 					image.setRGB(x, y, p);
 				}
 			}
 			inGrayscale = false; //If the pixels are randomized, this is no longer true!
 		}
-		
+
 		/**
-		 * Polarizes an image. 
+		 * Polarizes an image.
 		 * <p>If the image is not grayscale, it corrects that first (and sets the grayscale boolean to true to save time later).
 		 * Then the image will turn each pixel more white or more dark, depending on if its color values are above 127
 		 * or below 128, up to a limit of 32 each time this method is called. After a max of four calls, each pixel will be
@@ -115,13 +115,13 @@ public class Abstractanator extends JComponent {
 				grayscale();
 				inGrayscale = true;
 			}
-			
+
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
 					p = image.getRGB(x, y);
 					alpha = (p >> 24) & 0xff;
 					red = (p >> 16) & 0xff;
-					
+
 					//red, green, and blue are the same value by now, so red is used to represent them all.
 					//If the value is below 128, it tends to black.
 					if (red < 128) {
@@ -130,16 +130,16 @@ public class Abstractanator extends JComponent {
 					else {
 						red = (red + LIMIT <= 255) ? (red + LIMIT) : 255;
 					}
-					
+
 					p = 0;
 					//And again because red stands for them all, it can represent green and blue here too.
 					p = p | red | (red << 8) | (red << 16) | (alpha << 24);
-					
+
 					image.setRGB(x, y, p);
 				}
 			}
 		}
-		
+
 		/** Makes an image grayscale.
 		 * <p>This is done by finding the average of the RGB values (rounded) and then setting the RGB values to the average.
 		 */
@@ -149,7 +149,7 @@ public class Abstractanator extends JComponent {
 			int p; //The pixel being currently examined in the loop.
 			int alpha, red, green, blue; //The alpha and RGB values of the pixel.
 			int average; //The average value of the three color values.
-			
+
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
 					p = image.getRGB(x, y);
@@ -157,16 +157,16 @@ public class Abstractanator extends JComponent {
 					red = (p >> 16) & 0xff;
 					green = (p >> 8) & 0xff;
 					blue = p & 0xff;
-					
+
 					average = (int)Math.round((red + green + blue) / 3);
-					
+
 					red = average;
 					green = average;
 					blue = average;
-					
+
 					p = 0;
 					p = p | blue | (green << 8) | (red << 16) | (alpha << 24);
-					
+
 					image.setRGB(x, y, p);
 				}
 			}
