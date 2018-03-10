@@ -9,6 +9,13 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
+/**
+ * This class will hold all abstraction functions including RGB, BW, Geom,
+ * and Folding
+ * @author Evan
+ *
+ */
+
 public class Abstractanator extends JComponent {
 
 		private ArrayList<AbstractImage> historylist;
