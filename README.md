@@ -25,6 +25,7 @@ Note that most of the tasks in both groups can happen simultaneously, as they do
 - [ ] Implement importing
 - [ ] Implement exporting
 - [ ] Cleanup window and make it colorful / nice looking
+
 #### VR Environment
 
 - [ ] Setup basic environment
