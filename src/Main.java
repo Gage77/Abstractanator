@@ -1,27 +1,19 @@
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
+//********************************************************************
+// Copyright information
+//********************************************************************
+// Last modified:
+//********************************************************************
+// Major Modification History:
+//
+// 03/07/18 [black]: Initial file GUI setup
+//
+//********************************************************************
+// Notes on use:
+//
+//********************************************************************
 
 public class Main {
-	
-	//********************************************************************
-	// Copyright information
-	//********************************************************************
-	// Last modified:
-	//********************************************************************
-	// Major Modification History:
-	//
-	// 03/07/18 [black]: Initial file GUI setup
-	//
-	//********************************************************************
-	// Notes on use:
-	//
-	//********************************************************************
+
 
 	/**
 	 * The <CODE>Main Abstractanator</CODE> class.<P>
@@ -44,7 +36,7 @@ public class Main {
 	  ****************************************/
 	  public static void main(String[] args)
 	  {
-		  
+
 	    // Create the view with the specified window parameters
 	    View view = new View(WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -53,7 +45,7 @@ public class Main {
 
 	    // Create the controller and connect the view and model to it
 	    Controller controller = new Controller(view, model);
-	  }	
+	  }
 
-  
+
 }

@@ -12,51 +12,58 @@ import javax.swing.JComponent;
 public class Abstractanator extends JComponent {
 
 		private ArrayList<AbstractImage> historylist;
-        private BufferedImage image; //Maybe change to array of 10 to allow previous images.
-        private boolean inGrayscale = false; //Checks to see if the image loaded is in grayscale.
+    private BufferedImage image; //Maybe change to array of 10 to allow previous images.
+    private boolean inGrayscale = false; //Checks to see if the image loaded is in grayscale.
 
-        public Abstractanator() {
-        	historylist = new ArrayList<AbstractImage>();
+    public Abstractanator()
+		{
+      historylist = new ArrayList<AbstractImage>();
 
-            try {
-                image = ImageIO.read(new File("images/Sample.jpg"));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+      try {
+        image = ImageIO.read(new File("images/sampleBird1.jpg"));
+      } catch (IOException ex) {
+        ex.printStackTrace();
+    	}
 
-            //Uncomment / change the limits of i to get different results.
-//            for (int i = 0; i < 4; i++) {
-//            	polarizePixels();
-//            }
+      //Uncomment / change the limits of i to get different results.
+//    for (int i = 0; i < 4; i++)
+//		{
+//   		polarizePixels();
+//    }
 
-//            for (int i = 0; i < 100; i++) {
-//            	randomizePixels();
-//            }
-        }
+//    for (int i = 0; i < 100; i++)
+//		{
+//  	 	randomizePixels();
+//    }
+    }
 
-        @Override
-        public Dimension getPreferredSize() {
-            return image == null ? new Dimension(200, 200) : new Dimension(image.getWidth(), image.getHeight());
-        }
+    @Override
+    public Dimension getPreferredSize()
+		{
+        return image == null ? new Dimension(200, 200) : new Dimension(image.getWidth(), image.getHeight());
+    }
 
-        @Override
-        public void paint(Graphics g) {
-            super.paint(g);
-            if (image != null) {
-                int x = (getWidth() - image.getWidth()) / 2;
-                int y = (getHeight() - image.getHeight()) / 2;
-                g.drawImage(image, x, y, this);
-            }
-        }
+    @Override
+    public void paint(Graphics g)
+		{
+      super.paint(g);
+      if (image != null)
+			{
+        int x = (getWidth() - image.getWidth()) / 2;
+        int y = (getHeight() - image.getHeight()) / 2;
+        g.drawImage(image, x, y, this);
+      }
+    }
 
-        /**
+     /**
 		 * Randomly adjusts the red, green, and blue values of each pixel in an image up to a limit.
 		 * The limit is 32, which is an eighth of each color value's range.
 		 * <p>There is no "bleed over"; that is, if a value would below 0 or above 255,
 		 * it will stay at 0 or 255 (the side effect is that if this effect repeats, colors
 		 * will tend toward the upper or lower limit).
 		 */
-		private void randomizePixels() {
+		private void randomizePixels()
+		{
 			int width = image.getHeight(); //The width of the image.
 			int height = image.getWidth(); //The height of the image.
 			final int LIMIT = 32; //The +/- limit by which each color value can be adjusted.

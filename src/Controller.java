@@ -1,3 +1,5 @@
+import java.awt.event.*;
+
 /**
  * The <CODE>Abstractanator Controller</CODE> class.<P>
  *
@@ -23,13 +25,83 @@ public class Controller
   ****************************************/
   public Controller(View theView, Model theModel)
   {
+    // Initialize the View and the Model so that the Controller
+    // can serve as the intermediary between the two
     this.theView = theView;
     this.theModel = theModel;
 
-    // Add action listeners for buttons in theView
+    // Add action listeners for I/O buttons in theView
+    this.theView.addImportButtonListener(new ImportListener());
+    this.theView.addExportButtonListener(new ExportListener());
+
+    // Add action listeners for abstraction buttons in theView
+    this.theView.addRGBButtonListener(new RGBListener());
+    this.theView.addBWButtonListener(new BWListener());
+    this.theView.addGeomButtonListener(new GeomListener());
+    this.theView.addFoldButtonListener(new FoldListener());
   }
 
   /****************************************
   * ActionListener(s)
   ****************************************/
+
+  // Action listener for the Import button
+  class ImportListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+      System.out.println("Import button pushed");
+    }
+  }
+
+  // Action listener for the Export button
+  class ExportListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+      System.out.println("Export button pushed");
+    }
+  }
+
+  // Action listener for the RGB abstraction button
+  class RGBListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+      System.out.println("RGB button pushed");
+    }
+  }
+
+  // Action listener for the BW abstraction button
+  class BWListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+      System.out.println("BW button pushed");
+    }
+  }
+
+  // Action listener for the Geometry abstraction button
+  class GeomListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+      System.out.println("Geom button pushed");
+    }
+  }
+
+  // Action listener for the Fold abstraction button
+  class FoldListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+      System.out.println("Fold button pushed");
+    }
+  }
 }
