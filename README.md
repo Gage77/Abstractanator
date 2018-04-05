@@ -1,12 +1,10 @@
-# Abstractanator with VR Environment Implementation
+# Abstractanator
 
 #### Team 001 (444)
 
-#### Hunter Black, Benjamin De Toy, Evan Johnston
+#### Hunter Black, Evan Johnston
 
 ## Tasks:
-
-Note that most of the tasks in both groups can happen simultaneously, as they do not rely on each other until near the end.
 
 #### Abstractanator Application
 
@@ -18,24 +16,20 @@ Note that most of the tasks in both groups can happen simultaneously, as they do
 - [X] Add widget for B/W abstraction
 - [X] Add widget for Geometric abstraction
 - [X] Add widget for "Folding" abstraction
-- [ ] Hookup interaction with RGB button
-- [ ] Hookup interaction with BW button
-- [ ] Hookup interaction with Geometric button
-- [ ] Hookup interaction with Folding button
-- [ ] Implement importing
-- [ ] Implement exporting
+- [X] Complete color randomizer function
+- [X] Complete black/white function
+- [X] Complete folding function
+- [X] Complete geometric function
+- [ ] Consider other abstraction functions
+- [ ] Hookup interaction with RGB button to color randomizer function
+- [ ] Hookup interaction with BW button to b/w function
+- [ ] Hookup interaction with Geometric button with geometric function
+- [ ] Hookup interaction with Folding button with folding function
+- [ ] Setup folding window
+- [ ] Implement importing image
+- [ ] Implement exporting/saving image
+- [ ] History panel
 - [ ] Cleanup window and make it colorful / nice looking
-
-#### VR Environment
-
-- [ ] Setup basic environment
-- [ ] Port in desktop mirroring
-- [ ] Allow adding of basic polyhedrons to environment
-- [ ] Allow scaling of polyhedrons
-- [ ] Add basic lighting effect
-- [ ] Allow for moving around of lighting effect
-- [ ] Allow for importing of images from desktop as texture
-- [ ] Setup application of texture to polyhedron in the environment
 
 ## Overall Process:
 
@@ -68,15 +62,6 @@ Fourth would be a “saving” feature that would display a feed of the last 10 
 
 Finally, there will be a folder/unfolder utility that will  serve to allow the user to fold the current image, much like you would fold a physical piece of paper, along customizable lines such that the resulting image is folded and compressed. Once folded, all future abstractions will only occur to the parts of the image that are presented on-screen. After future abstractions have occured, the image can then be unfolded, revealing the parts of the image that had since been folded and hidden from view. The end result of this type of abstraction is to obtain an image that is abstracted on varying degrees at varying locations on the image, allowing for a larger variety of abstractions to be obtained.
 
-*AbstractanatorVR:*
-The AbstractanatorVR application will serve as a way of taking an abstracted image from the Abstractanator application and manipulating it in various ways within a 3D virtual reality environment. We aim to have a number of main features within this environment, with 2 main features proposed and the possibility to add more in the future.
-
-The first, major feature will be the ability to summon basic, manipulatable polyhedrons that can be moved around and placed anywhere within the environment. These 3D objects will initially not have any textures associated with their surface. The user will then be able to bring in their abstracted image obtained from the Abstractanator application, and apply said image as a texture to a chosen 3D object. The image will then wrap around the object, allowing the user to then observe their abstracted image within a 3D space.
-
-Secondly, users will have the ability to summon, move around, and manipulate a basic light source to allow for viewing of 3D objects and abstracted images in various different lightings.
-
-All other features outside of the scope of the ones listed above will be considered stretchgoals for this project, with the overall structure of the project itself lending to future modularity in both the Abstractanator application and the associated AbstractanatorVR environment.
-
 ## Roles:
 While we determined that it will be best for all of our team to share a small part of each role listed below, we felt that it would be imperative to define a number of basic roles with associated  guidelines for each of us to prescribe our workload to in order to maintain a steady flow and achieve a high level of reliability and communication between us. The major roles are listed below.
 
@@ -89,26 +74,20 @@ The next role will be the seamless implementation of the final project. Ensuring
 ## Milestones:
 The milestones for the Abstractanator are each of the features that we intended to implement. Once again, the features will be implemented roughly in the order that they are listed on this project plan.
 
-Similarly for the AbstractanatorVR, the creation of 3D shapes, the wrapping of the abstracted image, and the manipulation of the light source, are each their own milestones.
-
-Holistically speaking, however, the major milestones are the first couple features from each application. If the difficulty of the latter features turns out to be more difficult than initially anticipated, then they can be sacrificed. However, some idea of abstraction and the ability to wrap the image around 3D shapes is the bedrock upon which this project rests, and is therefore nonnegotiable.
+Holistically speaking, however, the major milestones are the first couple features from each application. If the difficulty of the latter features turns out to be more difficult than initially anticipated, then they can be sacrificed.
 
 ## Timetable:
-Due to the vast modularity of our program, it is difficult to predict how long each individual feature will take to implement. However, we are tentatively dividing the project as such: the Abstractanator will be completed before Spring Break, and the AbstractanatorVR will take up the remaining development time. If any shift in this division occurs, it will likely be to afford more time for the latter feature, as it is expected to be more complex. That being said, below is a rough outline for deadlines of the main features of each major goal.
+Due to the vast modularity of our program, it is difficult to predict how long each individual feature will take to implement. However, we are tentatively dividing the project as such: the Abstractanator will be completed roughly before Spring Break, with the rest of the time spent on stretch goals and more abstraction functions. If any shift in this division occurs, it will likely be to afford more time for the latter feature, as it is expected to be more complex. That being said, below is a rough outline for deadlines of the main features of each major goal.
 
 For the Abstractanator application, we hope finish at least one major abstraction method per 2 weeks, starting on the week of February 19th, with the possibility to have this stretch to one per every 3 weeks if we do not plan on reaching any abstraction features past those that have been defined above. The final Abstractanator application will be projected to be feature complete by early to mid April.
 
-The AbstractanatorVR environment’s development will be stalled until close to the end of the development cycle for the Abstractanator application, as the latter is dependent on the former for the scope of this project. We will aim on getting the VR environment setup for basic interaction with 3D objects by mid April. We hope to be able to implement the Abstractanator application within the AbstractanatorVR environment by utilizing a desktop mirroring library available for major VR tools, thus cutting down on development time spent on combining the two application.
-
-The final project is projected to be feature complete by the end of April to the beginning of May, leaving a small window of time for stress testing and user testing to allow for some feedback and implementing some efficiency methods for the codebase.
+The final project is projected to be feature complete by the end of April, leaving a small window of time for stress testing and user testing to allow for some feedback and implementing some efficiency methods for the codebase.
 
 ## Implementation:
 The Abstractanator will be done in Java, using whatever Graphics packages are necessary. However, our goal is to minimize outside sources in order to prevent conflicting packages from producing unintended results.
 
-The AbstractanatorVR will be made using Unity, on account of it being free for students and easy to use. The accompanying language that comes with Unity is C#. We will have to see if UnityScript and Boo, Unity’s other languages, are also necessary, but for the same reason as listed above, we are hoping to minimize the diversity of the technology we employ.
-
 ## Deliverables:
-The final product would have the programs that deliver on the features: the Abstractanator and the AbstractanatorVR. While ideally each feature would be intuitive enough to be understood how to use at a glance, we plan to also include a readme txt file that will fill the user in on the details of how to use each program.
+The final product would have the programs that deliver on the features of the Abstractanator. While ideally each feature would be intuitive enough to be understood how to use at a glance, we plan to also include a readme txt file that will fill the user in on the details of how to use each program.
 
 ## Evaluation:
 Evaluating if any given feature is a success has to do with all team members collectively agreeing that a feature delivers on the “fantasy” that we agreed the feature held. We do not anticipate having to re-evaluate a feature after it is judged to be sufficient in completing its purpose, due to the modularity of the project implying that the features.
@@ -120,8 +99,6 @@ An additional concern is the possibility that VR might cause headaches as it has
 
 ## Training and Maintenance:
 For the Abstractanator, training will occur mostly organically. Throughout the progression of the class, our knowledge of various graphical elements will grow, although for the more nuanced points of development, it will likely be necessary to peruse the API library.
-
-As for the AbstractanatorVR component, learning will have to be self-directed. Familiarity with Unity is essential to success, and fortunately does not require any sort of fanfare to set up and learn. Each of us will separately learn the application (as we all have our own learning paces) but help each other understand the peculiarities of the program as needed.
 
 Fortunately, since this program is not one that interacts with outside sources, maintenance will not really be needed. The most we would have to watch out for is if any of our resources for creating the program get updated versions, at which point we would have to decide which would be more tactical: adjusting to the new version and fixing errors that might cause, or sticking to the old one and dealing with a lack of up-to-date features.
 

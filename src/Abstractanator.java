@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 /**
  * This class will hold all abstraction functions including RGB, BW, Geom,
  * and Folding
- * @author Evan
+ * @author Evan Johnston
  *
  */
 
