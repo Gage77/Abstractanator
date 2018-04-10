@@ -64,6 +64,8 @@ public class Controller
     public void actionPerformed(ActionEvent arg0)
     {
       System.out.println("Export button pushed");
+
+      theView.saveImage();
     }
   }
 

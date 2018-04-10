@@ -69,6 +69,14 @@ public class Abstractanator extends JComponent
 		System.out.println("Abstractanator image set");
 	}
 
+  /**
+	* Returns the currently set BufferedImage
+	*/
+  public BufferedImage getImage()
+  {
+    return this.image;
+  }
+
 	/****************************************
 	* Public method(s) - OVERRIDES
 	****************************************/

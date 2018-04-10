@@ -41,6 +41,8 @@ public final class View extends JFrame
   private JSpinner geomSpin;
   private JSpinner foldSpin;
 
+  private String format = "";
+
   /****************************************
   * Constructor(s)
   ****************************************/
@@ -98,6 +100,9 @@ public final class View extends JFrame
   * Public method(s)
   ****************************************/
 
+  /**
+  * Select an image to open and manipulate through the use of a JFileChooser
+  */
   public void openImage()
   {
     JFileChooser fc = new JFileChooser();
@@ -111,8 +116,29 @@ public final class View extends JFrame
       System.out.println("Image file loaded successfully");
 
       this.abstractanator.setImage(image);
+      this.repaint();
     } catch (Exception e) {
       System.out.println("Error reading image file");
+    }
+  }
+
+  public void saveImage()
+  {
+    BufferedImage imageToSave = this.abstractanator.getImage();
+    format = "png";
+    File saveFile = new File("savedimage." + format);
+    JFileChooser fc = new JFileChooser();
+    fc.setSelectedFile(saveFile);
+
+    int fcval = fc.showSaveDialog(this);
+    if (fcval == JFileChooser.APPROVE_OPTION)
+    {
+      saveFile = fc.getSelectedFile();
+      try {
+        ImageIO.write(imageToSave, format, saveFile);
+      } catch (IOException ex) {
+        System.out.println("Error in saving image file");
+      }
     }
   }
 
@@ -262,6 +288,34 @@ public final class View extends JFrame
     rightHandSidePanel.add(abstractionPanel);
 
     this.getContentPane().add(rightHandSidePanel, BorderLayout.LINE_END);
+  }
+
+  private void getSaveFileFormat()
+  {
+    Object[] options = {"png", "jpg", "gif"};
+    String chosenOption = (String)JOptionPane.showInputDialog(
+      this,
+      "Choose a file format to save to",
+      "Save Format",
+      JOptionPane.PLAIN_MESSAGE,
+      null,
+      options,
+      "png"
+    );
+
+    if (chosenOption != null && chosenOption.length() > 0)
+    {
+      setSaveFileFormat(chosenOption);
+    }
+    else
+    {
+      System.out.println("Error in setting save file format type");
+    }
+  }
+
+  private void setSaveFileFormat(String saveFormat)
+  {
+    this.format = saveFormat;
   }
 
   /****************************************
