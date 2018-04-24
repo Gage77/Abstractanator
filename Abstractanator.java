@@ -38,7 +38,7 @@ public class Abstractanator extends JComponent {
             
             historylist.add(0, (new AbstractImage(image, thumbnail(75,75), inGrayscale)));
             
-            abstractinate(2, 4);
+            abstractinate(COLORPOLARIZE, 4);
             
             image = thumbnail(75, 75);
         }
@@ -76,11 +76,11 @@ public class Abstractanator extends JComponent {
         	for (int i = 0; i < iter; i++) {
         		switch(abstractType) {
         		case RANDOMIZE:
-        			randomizePixels();
+        			randomizePixels(); break;
         		case POLARIZE:
-        			polarizePixels();
+        			polarizePixels(); break;
         		case COLORPOLARIZE:
-        			colorPolarizePixels();
+        			colorPolarizePixels(); break;
         		}
         	}
         	//The image gets added to the front.
