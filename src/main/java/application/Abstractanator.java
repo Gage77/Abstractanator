@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +29,13 @@ public class Abstractanator extends JComponent
 	* Private class variables
 	****************************************/
 
+  private ArrayList<AbstractImage> historylist;
   private BufferedImage image; //Maybe change to array of 10 to allow previous images.
   private boolean inGrayscale = false; //Checks to see if the image loaded is in grayscale.
+
+  final int RANDOMIZE = 0;
+  final int POLARIZE = 1;
+  final int COLORPOLARIZE = 2;
 
 	/****************************************
   * Constructor(s)
@@ -69,12 +75,27 @@ public class Abstractanator extends JComponent
 		System.out.println("Abstractanator image set");
 	}
 
+  public void setGrayscale(boolean grayscale)
+  {
+    this.inGrayscale = grayscale;
+  }
+
   /**
 	* Returns the currently set BufferedImage
 	*/
   public BufferedImage getImage()
   {
     return this.image;
+  }
+
+  public ArrayList<AbstractImage> getHistory()
+  {
+    return historylist;
+  }
+
+  public boolean inGrayscale()
+  {
+    return inGrayscale;
   }
 
 	/****************************************
@@ -84,7 +105,7 @@ public class Abstractanator extends JComponent
   @Override
   public Dimension getPreferredSize()
 	{
-    return image == null ? new Dimension(200, 200) : new Dimension(image.getWidth(), image.getHeight());
+    return image == null ? new Dimension(500, 500) : new Dimension(image.getWidth(), image.getHeight());
   }
 
   @Override
@@ -97,6 +118,55 @@ public class Abstractanator extends JComponent
       int y = (getHeight() - image.getHeight()) / 2;
       g.drawImage(image, x, y, this);
     }
+  }
+
+  /****************************************
+	* Public method(s)
+	****************************************/
+
+  /** Abstracts an image for n iterations
+  * @param abstractType The type of abstraction to be performed
+  * @param iter The amount of times the iteration is to be performed. Defaults to 1 if below 1
+  */
+  public void abstractinate(int abstractType, int iter)
+  {
+    if (iter < 1) {
+      iter = 1;
+    }
+    for (int i = 0; i < iter; i++) {
+      switch (abstractType) {
+        case RANDOMIZE:
+          randomizePixels();
+          break;
+        case POLARIZE:
+          polarizePixels();
+          break;
+        case COLORPOLARIZE:
+          colorPolarizePixels();
+          break;
+      }
+    }
+    // The image gets added to the front
+    historylist.add(0, (new AbstractImage(image, thumbnail(75, 75), inGrayscale)));
+    // If there are more than 5 images, the last one gets removed
+    if (historylist.size() > 5) {
+      historylist.remove(historylist.size() - 1);
+    }
+  }
+
+  /** Gets the thumbnail of the abstract image.
+  * <p>This is really just a resize function, but the naming convention is to be more clear on its purpose.
+  * @param width The width of the resized image.
+  * @param height The height of the resized image.
+  * @return The resized image.
+  */
+  public BufferedImage thumbnail(int width, int height)
+  {
+    BufferedImage thumbnail = new BufferedImage(width, height, image.getType());
+    Graphics2D g = thumbnail.createGraphics();
+      g.drawImage(image, 0, 0, width, height, null);
+      g.dispose();
+      return thumbnail;
   }
 
 	/****************************************
@@ -159,7 +229,8 @@ public class Abstractanator extends JComponent
 	 * or below 128, up to a limit of 32 each time this method is called. After a max of four calls, each pixel will be
 	 * completely black or completely white.
 	 */
-	private void polarizePixels() {
+	private void polarizePixels()
+  {
 		int width = image.getHeight(); //The width of the image.
 		int height = image.getWidth(); //The height of the image.
 		final int LIMIT = 32; //The +/- limit by which each color value can be adjusted.
@@ -195,10 +266,63 @@ public class Abstractanator extends JComponent
 		}
 	}
 
+  /** Polarizes an image color-wise incrementally.
+	* <p>For example, if a pixel had the RGB values 210, 85, 130, it would eventually become 255, 0, 255.
+	* Each value will increase or decrease by 32 each time this method is called. Four calls means an image is color polarized.
+	*/
+	public void colorPolarizePixels()
+  {
+		int width = image.getHeight(); //The width of the image.
+		int height = image.getWidth(); //The height of the image.
+		final int LIMIT = 32; //The +/- limit by which each color value can be adjusted.
+		int p; //The pixel being currently examined in the loop.
+		int alpha, red, green, blue; //The RGBA values of the pixel.
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				p = image.getRGB(x, y);
+				alpha = (p >> 24) & 0xff;
+				red = (p >> 16) & 0xff;
+				green = (p >> 8) & 0xff;
+				blue = p & 0xff;
+
+				//First adjusting red...
+				if (red < 128) {
+					red = (red - LIMIT >= 0) ? (red - LIMIT) : 0; //A catch to make sure the value stays valid.
+				}
+				else {
+					red = (red + LIMIT <= 255) ? (red + LIMIT) : 255;
+				}
+				//... then green...
+				if (green < 128) {
+					green = (green - LIMIT >= 0) ? (green - LIMIT) : 0; //A catch to make sure the value stays valid.
+				}
+				else {
+					green = (green + LIMIT <= 255) ? (green + LIMIT) : 255;
+				}
+				//... then blue.
+				if (blue < 128) {
+					blue = (blue - LIMIT >= 0) ? (blue - LIMIT) : 0; //A catch to make sure the value stays valid.
+				}
+				else {
+					blue = (blue + LIMIT <= 255) ? (blue + LIMIT) : 255;
+				}
+
+				p = 0;
+				p = p | blue | (green << 8) | (red << 16) | (alpha << 24);
+
+				image.setRGB(x, y, p);
+			}
+		}
+
+		setGrayscale(false);
+	}
+
 	/** Makes an image grayscale.
 	 * <p>This is done by finding the average of the RGB values (rounded) and then setting the RGB values to the average.
 	 */
-	private void grayscale() {
+	private void grayscale()
+  {
 		int width = image.getHeight(); //The width of the image.
 		int height = image.getWidth(); //The height of the image.
 		int p; //The pixel being currently examined in the loop.
@@ -226,6 +350,4 @@ public class Abstractanator extends JComponent
 			}
 		}
 	}
-
-
 }

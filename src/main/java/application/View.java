@@ -114,12 +114,11 @@ public final class View extends JFrame
       File imageFile = fc.getSelectedFile();
       image = ImageIO.read(imageFile);
       System.out.println("Image file loaded successfully");
-
       this.abstractanator.setImage(image);
-      this.repaint();
     } catch (Exception e) {
       System.out.println("Error reading image file");
     }
+    this.repaint();
   }
 
   public void saveImage()
