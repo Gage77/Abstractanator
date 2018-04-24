@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,18 +31,11 @@ public class Abstractanator extends JComponent {
                 ex.printStackTrace();
             }
             
-            //Uncomment / change the limits of i to get different results.
-//            for (int i = 0; i < 4; i++) {
-//            	polarizePixels();
-//            }
+            historylist.add(0, (new AbstractImage(image, thumbnail(75,75), inGrayscale)));
             
-//            for (int i = 0; i < 100; i++) {
-//            	randomizePixels();
-//            }
+            abstractinate(2, 4);
             
-            for (int i = 0; i < 4; i++) {
-            	colorPolarizePixels();
-            }
+            image = thumbnail(75, 75);
         }
 
         @Override
@@ -57,6 +51,40 @@ public class Abstractanator extends JComponent {
                 int y = (getHeight() - image.getHeight()) / 2;
                 g.drawImage(image, x, y, this);
             }
+        }
+        
+        //Getters
+        public ArrayList<AbstractImage> getHistory() { return historylist; }
+        public BufferedImage getImage() { return image; }
+        public boolean inGrayscale() { return inGrayscale; }
+        
+        //Setters
+        public void setImage(BufferedImage image) { this.image = image; }
+        public void setGrayscale(boolean grayscale) { this.inGrayscale = grayscale; }
+        
+        /** Abstracts an image for n iterations.
+         * <p> 0: randomize
+         * <p> 1: polarize
+         * <p> 2: colorPolarize
+         * @param abstractType The type of abstraction to be performed.
+         * @param iter The amount of times the iteration is to be performed. Defaults to 1 if below 1.
+         */
+        public void abstractinate(int abstractType, int iter) {
+        	if (iter < 1) iter = 1;
+        	for (int i = 0; i < iter; i++) {
+        		switch(abstractType) {
+        		case 0:
+        			randomizePixels();
+        		case 1:
+        			polarizePixels();
+        		case 2:
+        			colorPolarizePixels();
+        		}
+        	}
+        	//The image gets added to the front.
+        	historylist.add(0, (new AbstractImage(image, thumbnail(75,75), inGrayscale)));
+        	//If there are more than 5 images, the last one gets removed.
+        	if (historylist.size() > 5) historylist.remove(historylist.size() - 1);
         }
 
         /**
@@ -104,7 +132,7 @@ public class Abstractanator extends JComponent {
 					image.setRGB(x, y, p);
 				}
 			}
-			inGrayscale = false; //If the pixels are randomized, this is no longer true!
+			setGrayscale(false); //If the pixels are randomized, this is no longer true!
 		}
 		
 		/**
@@ -123,7 +151,7 @@ public class Abstractanator extends JComponent {
 
 			if (!inGrayscale) {
 				grayscale();
-				inGrayscale = true;
+				setGrayscale(true);
 			}
 			
 			for (int x = 0; x < width; x++) {
@@ -197,6 +225,8 @@ public class Abstractanator extends JComponent {
 					image.setRGB(x, y, p);
 				}
 			}
+			
+			setGrayscale(false);
 		}
 		
 		/** Makes an image grayscale.
@@ -229,5 +259,19 @@ public class Abstractanator extends JComponent {
 					image.setRGB(x, y, p);
 				}
 			}
+		}
+		
+		/** Gets the thumbnail of the abstract image.
+		 * <p>This is really just a resize function, but the naming convention is to be more clear on its purpose.
+		 * @param width The width of the resized image.
+		 * @param height The height of the resized image.
+		 * @return The resized image.
+		 */
+		public BufferedImage thumbnail(int width, int height) {
+			BufferedImage thumbnail = new BufferedImage(width, height, image.getType());
+			Graphics2D g = thumbnail.createGraphics();
+		    g.drawImage(image, 0, 0, width, height, null);
+		    g.dispose();
+		    return thumbnail;
 		}
     }
