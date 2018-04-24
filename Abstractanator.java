@@ -21,6 +21,11 @@ public class Abstractanator extends JComponent {
 		private ArrayList<AbstractImage> historylist;
         private BufferedImage image; //Maybe change to array of 10 to allow previous images.
         private boolean inGrayscale = false; //Checks to see if the image loaded is in grayscale.
+        
+        //Ints representing the abstraction values.
+        final int RANDOMIZE = 0;
+        final int POLARIZE = 1;
+        final int COLORPOLARIZE = 2;
 
         public Abstractanator() {
         	historylist = new ArrayList<AbstractImage>();
@@ -61,11 +66,8 @@ public class Abstractanator extends JComponent {
         //Setters
         public void setImage(BufferedImage image) { this.image = image; }
         public void setGrayscale(boolean grayscale) { this.inGrayscale = grayscale; }
-        
+   
         /** Abstracts an image for n iterations.
-         * <p> 0: randomize
-         * <p> 1: polarize
-         * <p> 2: colorPolarize
          * @param abstractType The type of abstraction to be performed.
          * @param iter The amount of times the iteration is to be performed. Defaults to 1 if below 1.
          */
@@ -73,11 +75,11 @@ public class Abstractanator extends JComponent {
         	if (iter < 1) iter = 1;
         	for (int i = 0; i < iter; i++) {
         		switch(abstractType) {
-        		case 0:
+        		case RANDOMIZE:
         			randomizePixels();
-        		case 1:
+        		case POLARIZE:
         			polarizePixels();
-        		case 2:
+        		case COLORPOLARIZE:
         			colorPolarizePixels();
         		}
         	}
@@ -85,6 +87,11 @@ public class Abstractanator extends JComponent {
         	historylist.add(0, (new AbstractImage(image, thumbnail(75,75), inGrayscale)));
         	//If there are more than 5 images, the last one gets removed.
         	if (historylist.size() > 5) historylist.remove(historylist.size() - 1);
+        }
+        
+        //A 1 iteration version of abstracting.
+        public void abstractinate(int abstractType) {
+        	abstractinate(abstractType, 1);
         }
 
         /**
