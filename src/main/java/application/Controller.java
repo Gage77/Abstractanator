@@ -1,7 +1,8 @@
 import java.awt.event.*;
 
 /**
- * The <CODE>Abstractanator Controller</CODE> class.<P>
+ * This class will serve as an intermediary and a manager for
+ * the interactable features of our main view.
  *
  * @author  Hunter Black
  * @version %I%, %G%

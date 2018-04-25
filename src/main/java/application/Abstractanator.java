@@ -45,23 +45,13 @@ public class Abstractanator extends JComponent
 	{
     // Try reading in a default image
     try {
-      image = ImageIO.read(new File("images/sampleBird1.jpg"));
+      image = ImageIO.read(new File("C:/Users/HunterPC/Desktop/Abstractanator/images/sky.jpg"));
     } catch (IOException ex) {
       ex.printStackTrace();
   	}
 
+    // initialize the history list
     historylist = new ArrayList<AbstractImage>(5);
-
-//	Uncomment / change the limits of i to get different results.
-//  for (int i = 0; i < 4; i++)
-//	{
-//  	polarizePixels();
-//  }
-
-//  for (int i = 0; i < 100; i++)
-//	{
-//  	randomizePixels();
-//  }
   }
 
 	/****************************************

@@ -5,9 +5,11 @@ import javax.swing.border.TitledBorder;
 import java.io.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.util.ArrayList;
 
 /**
- * The <CODE>Abstractanator View/CODE> class.<P>
+ * This class will create and display the main UI, as
+ * well as all interactable features of our application.
  *
  * @author  Hunter Black
  * @version %I%, %G%
@@ -23,7 +25,8 @@ public final class View extends JFrame
   * Private class variables
   ****************************************/
 
-  // Height and width of JFrame
+  private ArrayList<AbstractImage> historyList;
+
   private static int h = 0;
   private static int w = 0;
   private static Abstractanator abstractanator;
@@ -43,6 +46,7 @@ public final class View extends JFrame
 
   private String format = "";
 
+  // Abstractinate finals to specify abstraction type
   final int RANDOMIZE = 0;
   final int POLARIZE = 1;
   final int COLORPOLARIZE = 2;
@@ -73,6 +77,9 @@ public final class View extends JFrame
     this.setVisible(true);
   }
 
+  /**
+  * Main constructor
+  */
   public View(int w, int h)
   {
     // Setup the frame (this class)
@@ -82,7 +89,9 @@ public final class View extends JFrame
     this.setSize(w, h);
     this.setTitle("Abstractanator");
 
+    // Initialize Abstractanator and history list to hold old images
     abstractanator = new Abstractanator();
+    historyList = new ArrayList<AbstractImage>(5);
 
     /****************************************
 		* Setup all internal panels for the View
@@ -103,6 +112,40 @@ public final class View extends JFrame
   /****************************************
   * Getters and Setters
   ****************************************/
+
+  /**
+  * Abstract image using colPolSpin value as # of iterations
+  */
+  private void setSaveFileFormat(String saveFormat)
+  {
+    this.format = saveFormat;
+  }
+
+  /**
+  * Retrieve the file format for saving the current image (png, jpg, gif)
+  */
+  private void getSaveFileFormat()
+  {
+    Object[] options = {"png", "jpg", "gif"};
+    String chosenOption = (String)JOptionPane.showInputDialog(
+      this,
+      "Choose a file format to save to",
+      "Save Format",
+      JOptionPane.PLAIN_MESSAGE,
+      null,
+      options,
+      "png"
+    );
+
+    if (chosenOption != null && chosenOption.length() > 0)
+    {
+      setSaveFileFormat(chosenOption);
+    }
+    else
+    {
+      System.out.println("Error in setting save file format type");
+    }
+  }
 
   /****************************************
   * Public method(s)
@@ -129,6 +172,9 @@ public final class View extends JFrame
     this.repaint();
   }
 
+  /**
+  * Save the current abstractImage to specified directory using JFileChooser
+  */
   public void saveImage()
   {
     BufferedImage imageToSave = this.abstractanator.getImage();
@@ -156,6 +202,9 @@ public final class View extends JFrame
   {
     int iterations = (int)rgbSpin.getValue();
     abstractanator.abstractinate(RANDOMIZE, iterations);
+
+    // Update history
+    updateHistoryList();
     // Repaint the changed image
     this.repaint();
   }
@@ -167,6 +216,9 @@ public final class View extends JFrame
   {
     int iterations = (int)bwSpin.getValue();
     abstractanator.abstractinate(POLARIZE, iterations);
+
+    // Update history
+    updateHistoryList();
     // Repaint the changed image
     this.repaint();
   }
@@ -178,6 +230,9 @@ public final class View extends JFrame
   {
     int iterations = (int)colPolSpin.getValue();
     abstractanator.abstractinate(COLORPOLARIZE, iterations);
+
+    // Update history
+    updateHistoryList();
     // Repaint the changed image
     this.repaint();
   }
@@ -330,34 +385,13 @@ public final class View extends JFrame
     this.getContentPane().add(rightHandSidePanel, BorderLayout.LINE_END);
   }
 
-  private void getSaveFileFormat()
+  private void updateHistoryList()
   {
-    Object[] options = {"png", "jpg", "gif"};
-    String chosenOption = (String)JOptionPane.showInputDialog(
-      this,
-      "Choose a file format to save to",
-      "Save Format",
-      JOptionPane.PLAIN_MESSAGE,
-      null,
-      options,
-      "png"
-    );
-
-    if (chosenOption != null && chosenOption.length() > 0)
-    {
-      setSaveFileFormat(chosenOption);
-    }
-    else
-    {
-      System.out.println("Error in setting save file format type");
-    }
+    System.out.println("updateHistoryList entered");
+    // Retrieve the most up-to-date history list from the Abstractanator
+    historyList = abstractanator.getHistory();
   }
-
-  private void setSaveFileFormat(String saveFormat)
-  {
-    this.format = saveFormat;
-  }
-
+  
   /****************************************
   * Action Event Overrides (Magic stuff)
   ****************************************/
