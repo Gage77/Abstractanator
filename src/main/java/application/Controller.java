@@ -18,17 +18,14 @@ public class Controller
   ****************************************/
 
   private View theView;
-  private Model theModel;
 
   /****************************************
   * Constructor(s)
   ****************************************/
-  public Controller(View theView, Model theModel)
+  public Controller(View theView)
   {
-    // Initialize the View and the Model so that the Controller
-    // can serve as the intermediary between the two
+    // Initialize the View
     this.theView = theView;
-    this.theModel = theModel;
 
     // Add action listeners for I/O buttons in theView
     this.theView.addImportButtonListener(new ImportListener());
