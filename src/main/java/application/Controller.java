@@ -28,6 +28,9 @@ public class Controller
     // Initialize the View
     this.theView = theView;
 
+    // Add action listener for undo/redo buttons in theView
+    this.theView.addUndoButtonListener(new UndoListener());
+
     // Add action listeners for I/O buttons in theView
     this.theView.addImportButtonListener(new ImportListener());
     this.theView.addExportButtonListener(new ExportListener());
@@ -110,6 +113,18 @@ public class Controller
     public void actionPerformed(ActionEvent arg0)
     {
       System.out.println("Fold button pushed");
+    }
+  }
+
+  // Action listener for the undo button
+  class UndoListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(ActionEvent arg0)
+    {
+      System.out.println("Undo button pushed");
+
+      theView.goBack();
     }
   }
 }

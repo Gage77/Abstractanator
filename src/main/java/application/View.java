@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.BorderFactory;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import javax.swing.border.TitledBorder;
@@ -32,6 +34,10 @@ public final class View extends JFrame
   private static Abstractanator abstractanator;
 
   private JPanel prevImagePanel;
+  private JPanel historyButtons;
+  private JPanel thumbnailPanel;
+
+  private JButton undoButton;
 
   private JButton importButton;
   private JButton exportButton;
@@ -239,6 +245,29 @@ public final class View extends JFrame
     this.repaint();
   }
 
+  /**
+  * Adjust the current image by going back in history
+  */
+  public void goBack()
+  {
+    System.out.println("Attempting to go back");
+    // If there is something in the history, set the current abstract
+    // image to the most recent abstract image
+    for (int i = historyList.size() - 1; i >= 0; i--) {
+      if (historyList.get(i) != null) {
+        this.abstractanator.setImage(historyList.get(i).getImg());
+        // Update history list and history list display
+        historyList.remove(i);
+        updateHistoryList();
+        this.repaint();
+        break;
+      }
+      else {
+        System.out.println("No more images in history");
+      }
+    }
+  }
+
   /****************************************
   * Private method(s)
   ****************************************/
@@ -276,6 +305,19 @@ public final class View extends JFrame
     ));
     prevImagePanel.setLayout(new BoxLayout(prevImagePanel, BoxLayout.PAGE_AXIS));
     prevImagePanel.setPreferredSize(new Dimension(w / 4, h));
+
+    historyButtons = new JPanel();
+    historyButtons.setLayout(new BoxLayout(historyButtons, BoxLayout.LINE_AXIS));
+
+    undoButton = new JButton("Undo");
+
+    historyButtons.add(undoButton);
+
+    thumbnailPanel = new JPanel();
+    thumbnailPanel.setLayout(new BoxLayout(thumbnailPanel, BoxLayout.PAGE_AXIS));
+
+    prevImagePanel.add(historyButtons, BorderLayout.PAGE_START);
+    prevImagePanel.add(thumbnailPanel, BorderLayout.CENTER);
 
     this.getContentPane().add(prevImagePanel, BorderLayout.LINE_START);
   }
@@ -394,20 +436,25 @@ public final class View extends JFrame
     // Retrieve the most up-to-date history list from the Abstractanator
     historyList = abstractanator.getHistory();
 
-    prevImagePanel.removeAll();
+    thumbnailPanel.removeAll();
 
     for (int i = 0; i < historyList.size(); i++) {
       if (historyList.get(i) != null) {
+        // Create a JLabel with the AbstractImage as the icon of the label
         BufferedImage thumbnail = historyList.get(i).getThumbNail();
         ImageIcon prevImgIcon = new ImageIcon(thumbnail);
         JLabel prevImg = new JLabel();
         prevImg.setIcon(prevImgIcon);
 
-        prevImagePanel.add(prevImg);
+        // Pad the label
+        Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        prevImg.setBorder(border);
+
+        thumbnailPanel.add(prevImg);
       }
     }
 
-    prevImagePanel.revalidate();
+    thumbnailPanel.revalidate();
     this.repaint();
   }
 
@@ -451,4 +498,9 @@ public final class View extends JFrame
     foldButton.addActionListener(listenForFold);
   }
 
+  // Undo
+  void addUndoButtonListener(ActionListener listenForUndo)
+  {
+    undoButton.addActionListener(listenForUndo);
+  }
 }

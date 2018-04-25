@@ -30,7 +30,7 @@ public class Abstractanator extends JComponent
 	****************************************/
 
   private ArrayList<AbstractImage> historylist;
-  private BufferedImage image; //Maybe change to array of 10 to allow previous images.
+  private BufferedImage image;
   private boolean inGrayscale = false; //Checks to see if the image loaded is in grayscale.
 
   final int RANDOMIZE = 0;
@@ -45,7 +45,7 @@ public class Abstractanator extends JComponent
 	{
     // Try reading in a default image
     try {
-      image = ImageIO.read(new File("C:/Users/HunterPC/Desktop/Abstractanator/images/sky.jpg"));
+      image = ImageIO.read(new File("C:/Users/Hunter/Desktop/CGProject/Abstractanator/images/sky.jpg"));
     } catch (IOException ex) {
       ex.printStackTrace();
   	}
@@ -64,6 +64,7 @@ public class Abstractanator extends JComponent
 	public void setImage(BufferedImage imageIn)
 	{
 		this.image = imageIn;
+    this.revalidate();
 		System.out.println("Abstractanator image set");
 	}
 
