@@ -31,6 +31,8 @@ public final class View extends JFrame
   private static int w = 0;
   private static Abstractanator abstractanator;
 
+  private JPanel prevImagePanel;
+
   private JButton importButton;
   private JButton exportButton;
 
@@ -267,11 +269,12 @@ public final class View extends JFrame
   */
   private void createHistoryPanel()
   {
-    JPanel prevImagePanel = new JPanel();
+    prevImagePanel = new JPanel();
     prevImagePanel.setBorder(BorderFactory.createCompoundBorder(
       BorderFactory.createLineBorder(Color.black, 2),
       BorderFactory.createTitledBorder("History")
     ));
+    prevImagePanel.setLayout(new BoxLayout(prevImagePanel, BoxLayout.PAGE_AXIS));
     prevImagePanel.setPreferredSize(new Dimension(w / 4, h));
 
     this.getContentPane().add(prevImagePanel, BorderLayout.LINE_START);
@@ -390,8 +393,24 @@ public final class View extends JFrame
     System.out.println("updateHistoryList entered");
     // Retrieve the most up-to-date history list from the Abstractanator
     historyList = abstractanator.getHistory();
+
+    prevImagePanel.removeAll();
+
+    for (int i = 0; i < historyList.size(); i++) {
+      if (historyList.get(i) != null) {
+        BufferedImage thumbnail = historyList.get(i).getThumbNail();
+        ImageIcon prevImgIcon = new ImageIcon(thumbnail);
+        JLabel prevImg = new JLabel();
+        prevImg.setIcon(prevImgIcon);
+
+        prevImagePanel.add(prevImg);
+      }
+    }
+
+    prevImagePanel.revalidate();
+    this.repaint();
   }
-  
+
   /****************************************
   * Action Event Overrides (Magic stuff)
   ****************************************/
