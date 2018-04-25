@@ -43,12 +43,14 @@ public class Abstractanator extends JComponent
 
   public Abstractanator()
 	{
-
+    // Try reading in a default image
     try {
       image = ImageIO.read(new File("images/sampleBird1.jpg"));
     } catch (IOException ex) {
       ex.printStackTrace();
   	}
+
+    historylist = new ArrayList<AbstractImage>(5);
 
 //	Uncomment / change the limits of i to get different results.
 //  for (int i = 0; i < 4; i++)
@@ -135,13 +137,13 @@ public class Abstractanator extends JComponent
     }
     for (int i = 0; i < iter; i++) {
       switch (abstractType) {
-        case RANDOMIZE:
+        case RANDOMIZE: // randomly change the rgb values of each pixel
           randomizePixels();
           break;
-        case POLARIZE:
+        case POLARIZE:  // shift rgb values of each pixel closer to white or black
           polarizePixels();
           break;
-        case COLORPOLARIZE:
+        case COLORPOLARIZE:  // shift rgb values of each pixel closer to 0 or 255 respectively
           colorPolarizePixels();
           break;
       }
@@ -152,6 +154,9 @@ public class Abstractanator extends JComponent
     if (historylist.size() > 5) {
       historylist.remove(historylist.size() - 1);
     }
+
+    // Tell AWT that this panel's info has changed, so redraw it
+    this.revalidate();
   }
 
   /** Gets the thumbnail of the abstract image.

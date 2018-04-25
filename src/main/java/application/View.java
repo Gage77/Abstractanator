@@ -33,19 +33,27 @@ public final class View extends JFrame
 
   private JButton rgbButton;
   private JButton bwButton;
-  private JButton geomButton;
+  private JButton colPolButton;
   private JButton foldButton;
 
   private JSpinner rgbSpin;
   private JSpinner bwSpin;
-  private JSpinner geomSpin;
+  private JSpinner colPolSpin;
   private JSpinner foldSpin;
 
   private String format = "";
 
+  final int RANDOMIZE = 0;
+  final int POLARIZE = 1;
+  final int COLORPOLARIZE = 2;
+
   /****************************************
   * Constructor(s)
   ****************************************/
+
+  /**
+  * Empty constructor
+  */
   public View()
   {
     h = 600;
@@ -139,6 +147,39 @@ public final class View extends JFrame
         System.out.println("Error in saving image file");
       }
     }
+  }
+
+  /**
+  * Abstract image using rgbSpin value as # of iterations
+  */
+  public void rgbAbstraction()
+  {
+    int iterations = (int)rgbSpin.getValue();
+    abstractanator.abstractinate(RANDOMIZE, iterations);
+    // Repaint the changed image
+    this.repaint();
+  }
+
+  /**
+  * Abstract image using bwSpin value as # of iterations
+  */
+  public void bwAbstraction()
+  {
+    int iterations = (int)bwSpin.getValue();
+    abstractanator.abstractinate(POLARIZE, iterations);
+    // Repaint the changed image
+    this.repaint();
+  }
+
+  /**
+  * Abstract image using colPolSpin value as # of iterations
+  */
+  public void colorPolarizationAbstraction()
+  {
+    int iterations = (int)colPolSpin.getValue();
+    abstractanator.abstractinate(COLORPOLARIZE, iterations);
+    // Repaint the changed image
+    this.repaint();
   }
 
   /****************************************
@@ -245,8 +286,8 @@ public final class View extends JFrame
     rgbButton.setToolTipText("Randomly change the RGB values of each pixel of the image");
     bwButton = new JButton("Black / White");
     bwButton.setToolTipText("Gradually adjust each pixel of the image towards true black or true white");
-    geomButton = new JButton("Geometric");
-    geomButton.setToolTipText("Adjust the shapes within the image to a more basic geometric form");
+    colPolButton = new JButton("Color Polarize");
+    colPolButton.setToolTipText("Shift individual RGB values closer to their respective extremes (contrastint)");
     foldButton = new JButton("Fold");
     foldButton.setToolTipText("\"Fold\" the image along a specified crease");
 
@@ -262,7 +303,7 @@ public final class View extends JFrame
       minSpin, maxSpin, stepSpin);
     SpinnerNumberModel bwModel = new SpinnerNumberModel(initialSpin,
       minSpin, maxSpin, stepSpin);
-    SpinnerNumberModel geomModel = new SpinnerNumberModel(initialSpin,
+    SpinnerNumberModel colPolModel = new SpinnerNumberModel(initialSpin,
       minSpin, maxSpin, stepSpin);
     SpinnerNumberModel foldModel = new SpinnerNumberModel(initialSpin,
       minSpin, maxSpin, stepSpin);
@@ -270,7 +311,7 @@ public final class View extends JFrame
     // Create all necessary spinners
     rgbSpin = new JSpinner(rgbModel);
     bwSpin = new JSpinner(bwModel);
-    geomSpin = new JSpinner(geomModel);
+    colPolSpin = new JSpinner(colPolModel);
     foldSpin = new JSpinner(foldModel);
 
     // Add it all to the abstraction pane
@@ -278,8 +319,8 @@ public final class View extends JFrame
     abstractionPanel.add(rgbButton);
     abstractionPanel.add(bwSpin);
     abstractionPanel.add(bwButton);
-    abstractionPanel.add(geomSpin);
-    abstractionPanel.add(geomButton);
+    abstractionPanel.add(colPolSpin);
+    abstractionPanel.add(colPolButton);
     abstractionPanel.add(foldSpin);
     abstractionPanel.add(foldButton);
 
@@ -345,10 +386,10 @@ public final class View extends JFrame
     bwButton.addActionListener(listenForBW);
   }
 
-  // Geom
-  void addGeomButtonListener(ActionListener listenForGeom)
+  // ColPol
+  void addColPolButtonListener(ActionListener listenForColPol)
   {
-    geomButton.addActionListener(listenForGeom);
+    colPolButton.addActionListener(listenForColPol);
   }
 
   // Fold

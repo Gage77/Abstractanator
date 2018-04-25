@@ -34,7 +34,7 @@ public class Controller
     // Add action listeners for abstraction buttons in theView
     this.theView.addRGBButtonListener(new RGBListener());
     this.theView.addBWButtonListener(new BWListener());
-    this.theView.addGeomButtonListener(new GeomListener());
+    this.theView.addColPolButtonListener(new ColPolListener());
     this.theView.addFoldButtonListener(new FoldListener());
   }
 
@@ -73,6 +73,8 @@ public class Controller
     public void actionPerformed(ActionEvent arg0)
     {
       System.out.println("RGB button pushed");
+
+      theView.rgbAbstraction();
     }
   }
 
@@ -83,16 +85,20 @@ public class Controller
     public void actionPerformed(ActionEvent arg0)
     {
       System.out.println("BW button pushed");
+
+      theView.bwAbstraction();
     }
   }
 
   // Action listener for the Geometry abstraction button
-  class GeomListener implements ActionListener
+  class ColPolListener implements ActionListener
   {
     @Override
     public void actionPerformed(ActionEvent arg0)
     {
-      System.out.println("Geom button pushed");
+      System.out.println("ColPol button pushed");
+
+      theView.colorPolarizationAbstraction();
     }
   }
 
