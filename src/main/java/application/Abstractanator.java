@@ -33,9 +33,9 @@ public class Abstractanator extends JComponent
   private BufferedImage image;
   private boolean inGrayscale = false; //Checks to see if the image loaded is in grayscale.
 
-  final int RANDOMIZE = 0;
-  final int POLARIZE = 1;
-  final int COLORPOLARIZE = 2;
+  public static final int RANDOMIZE = 0;
+  public static final int POLARIZE = 1;
+  public static final int COLORPOLARIZE = 2;
 
 	/****************************************
   * Constructor(s)
@@ -141,10 +141,6 @@ public class Abstractanator extends JComponent
     }
     // The image gets added to the front
     historylist.add(0, (new AbstractImage(image, thumbnail(75, 75), inGrayscale)));
-    // If there are more than 5 images, the last one gets removed
-    if (historylist.size() > 5) {
-      historylist.remove(historylist.size() - 1);
-    }
 
     // Tell AWT that this panel's info has changed, so redraw it
     this.revalidate();
@@ -164,6 +160,29 @@ public class Abstractanator extends JComponent
       g.dispose();
       return thumbnail;
   }
+  
+  /** "Folds" the image. Spits the image in half according to the fold position, then makes the next AbstractImage hold both.
+   * <p>Any further abstract functions only act on the unfolded part. The fold is always smaller.
+   * @param foldPosition The position from which the image is to be folded. See AbstractImage for more details.
+   */
+  public void Fold(int foldPosition) {
+	  //First we need copy destinations for the image and the folded portion.
+	  BufferedImage fold;
+	  BufferedImage unfold;
+	  
+	  //Then how the image gets drawn depends on the foldPosition.
+	  switch (foldPosition) {
+	  case AbstractImage.LEFT_FOLD:
+		  
+		  break;
+	  case AbstractImage.RIGHT_FOLD:
+		  break;
+	  case AbstractImage.TOP_FOLD:
+		  break;
+	  case AbstractImage.BOTTOM_FOLD:
+		  break;
+	  }
+  }
 
 	/****************************************
 	* Private method(s)
@@ -178,8 +197,8 @@ public class Abstractanator extends JComponent
 	 */
 	private void randomizePixels()
 	{
-		int width = image.getHeight(); //The width of the image.
-		int height = image.getWidth(); //The height of the image.
+		int width = image.getWidth(); //The width of the image.
+		int height = image.getHeight(); //The height of the image.
 		final int LIMIT = 32; //The +/- limit by which each color value can be adjusted.
 		Random rand = new Random(); //The random to determine how much a color value is adjusted.
 		int p; //The pixel being currently examined in the loop.
@@ -227,8 +246,8 @@ public class Abstractanator extends JComponent
 	 */
 	private void polarizePixels()
   {
-		int width = image.getHeight(); //The width of the image.
-		int height = image.getWidth(); //The height of the image.
+		int width = image.getWidth(); //The width of the image.
+		int height = image.getHeight(); //The height of the image.
 		final int LIMIT = 32; //The +/- limit by which each color value can be adjusted.
 		int p; //The pixel being currently examined in the loop.
 		int alpha, red; //The alpha and red values of the pixel.
@@ -268,8 +287,8 @@ public class Abstractanator extends JComponent
 	*/
 	public void colorPolarizePixels()
   {
-		int width = image.getHeight(); //The width of the image.
-		int height = image.getWidth(); //The height of the image.
+		int width = image.getWidth(); //The width of the image.
+		int height = image.getHeight(); //The height of the image.
 		final int LIMIT = 32; //The +/- limit by which each color value can be adjusted.
 		int p; //The pixel being currently examined in the loop.
 		int alpha, red, green, blue; //The RGBA values of the pixel.
@@ -319,8 +338,8 @@ public class Abstractanator extends JComponent
 	 */
 	private void grayscale()
   {
-		int width = image.getHeight(); //The width of the image.
-		int height = image.getWidth(); //The height of the image.
+		int width = image.getWidth(); //The width of the image.
+		int height = image.getHeight(); //The height of the image.
 		int p; //The pixel being currently examined in the loop.
 		int alpha, red, green, blue; //The alpha and RGB values of the pixel.
 		int average; //The average value of the three color values.
