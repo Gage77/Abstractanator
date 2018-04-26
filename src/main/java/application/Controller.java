@@ -1,4 +1,5 @@
 import java.awt.event.*;
+import javax.swing.*;
 
 /**
  * This class will serve as an intermediary and a manager for
@@ -55,6 +56,7 @@ public class Controller
       System.out.println("Import button pushed");
 
       theView.openImage();
+      theView.resetFoldButtonText();
     }
   }
 
@@ -114,7 +116,15 @@ public class Controller
     {
       System.out.println("Fold button pushed");
 
-      theView.foldAbstraction();
+      JButton button = (JButton)arg0.getSource();
+      if (button.getText().equals("Fold")) {
+        theView.foldAbstraction();
+        button.setText("Unfold");
+      }
+      else {
+        theView.unfoldAbstraction();
+        button.setText("Fold");
+      }
     }
   }
 

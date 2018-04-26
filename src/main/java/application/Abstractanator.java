@@ -70,7 +70,8 @@ public class Abstractanator extends JComponent
 		historylist.add(0, new AbstractImage(getCopy(image), thumbnail(75, 75), null, false, 0));
 	}
 
-	private BufferedImage getCopy(BufferedImage img) {
+	private BufferedImage getCopy(BufferedImage img)
+  {
 		BufferedImage copy = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
 		Graphics2D g = copy.createGraphics();
 		g.drawImage(img, 0, 0, null);
@@ -156,10 +157,11 @@ public class Abstractanator extends JComponent
     this.revalidate();
   }
 
-  /** Removes the first image in the thumbnails, sets the abstractanator image to the next one.
-   *
+  /**
+   * Removes the first image in the thumbnails, sets the abstractanator image to the next one.
    */
-  public void removeFront() {
+  public void removeFront()
+  {
 	  historylist.remove(0);
 	  if (historylist.size() > 0) {
 		  image = getCopy(historylist.get(0).getImg());
@@ -191,7 +193,8 @@ public class Abstractanator extends JComponent
    * @param dim The dimension being tested.
    * @return True if even.
    */
-  private boolean isEven(int dim) {
+  private boolean isEven(int dim)
+  {
 	  return (dim % 2 == 0 ? true : false);
   }
 
@@ -199,7 +202,8 @@ public class Abstractanator extends JComponent
    * <p>Any further abstract functions only act on the unfolded part.
    * @param foldPosition The position from which the image is to be folded. See AbstractImage for more details.
    */
-  public void fold(int foldPosition) {
+  public void fold(int foldPosition)
+  {
 	  //First we need copy destinations for the image and the folded portion, as well as a temp that holds the images.
 	  BufferedImage fold;
 	  BufferedImage unfold;
@@ -250,17 +254,18 @@ public class Abstractanator extends JComponent
 	  image = getCopy(unfold);
 	  historylist.add(0, (new AbstractImage(getCopy(image), thumbnail(75, 75), fold, inGrayscale, foldPosition)));
 
-	  abstractinate(RANDOMIZE, 10);
-
-	  this.revalidate();
-
-	  unfold();
+	  // abstractinate(RANDOMIZE, 10);
+    //
+	  // this.revalidate();
+    //
+	  // unfold();
   }
 
-  /** Unfolds an image. This will only be called if the image is folded.
-   *
+  /**
+   * Unfolds an image. This will only be called if the image is folded.
    */
-  public void unfold() {
+  public void unfold()
+  {
 	 BufferedImage fold = getCopy(historylist.get(0).getFold());
 	 BufferedImage unfold = getCopy(historylist.get(0).getImg());
 	 int foldPosition = historylist.get(0).getOffset();

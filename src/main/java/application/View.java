@@ -119,11 +119,20 @@ public final class View extends JFrame
   ****************************************/
 
   /**
-  * Abstract image using colPolSpin value as # of iterations
+  * Sets the file format for exporting
   */
   private void setSaveFileFormat(String saveFormat)
   {
     this.format = saveFormat;
+  }
+
+  /**
+  * Resets fold button text to default fold when a new image is loaded
+  * This method is called by the importButton ActionListener
+  */
+  public void resetFoldButtonText()
+  {
+    foldButton.setText("Fold");
   }
 
   /**
@@ -243,11 +252,31 @@ public final class View extends JFrame
     this.repaint();
   }
 
+  /**
+  * Abstract image by folding in half based on int value in foldSpin
+  * 1 = Left fold
+  * 2 = Right fold
+  * 3 = Top fold
+  # 4 = Bottom fold
+  */
   public void foldAbstraction()
   {
     // Get fold position
     int foldPosition = (int)foldSpin.getValue();
     abstractanator.fold(foldPosition);
+
+    // Update history
+    updateHistoryList();
+    // Repaint the changed image
+    this.repaint();
+  }
+
+  /**
+  * Unfolds a folded abstraced image
+  */
+  public void unfoldAbstraction()
+  {
+    abstractanator.unfold();
 
     // Update history
     updateHistoryList();
