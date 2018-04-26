@@ -253,12 +253,6 @@ public class Abstractanator extends JComponent
 
 	  image = getCopy(unfold);
 	  historylist.add(0, (new AbstractImage(getCopy(image), thumbnail(75, 75), fold, inGrayscale, foldPosition)));
-
-	  // abstractinate(RANDOMIZE, 10);
-    //
-	  // this.revalidate();
-    //
-	  // unfold();
   }
 
   /**
