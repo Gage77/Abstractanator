@@ -27,6 +27,7 @@ public class AbstractImage {
 		this.inGrayscale = inGrayscale;
 		this.thumbnail = thumbnail;
 		this.foldPosition = foldPosition;
+		this.fold = fold;
 	}
 	
 	public BufferedImage getImg() { return img; }

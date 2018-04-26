@@ -150,7 +150,7 @@ public class Abstractanator extends JComponent
       }
     }
     // The image gets added to the front
-    historylist.add(0, (new AbstractImage(getCopy(image), thumbnail(75, 75), null, inGrayscale, 0)));
+    historylist.add(0, (new AbstractImage(getCopy(image), thumbnail(75, 75), historylist.get(0).getFold(), inGrayscale, historylist.get(0).getOffset())));
 
     // Tell AWT that this panel's info has changed, so redraw it
     this.revalidate();
@@ -162,7 +162,8 @@ public class Abstractanator extends JComponent
   public void removeFront() {
 	  historylist.remove(0);
 	  if (historylist.size() > 0) {
-		  image = historylist.get(0).getImg();
+		  image = getCopy(historylist.get(0).getImg());
+		  this.revalidate();
 	  }
 	  else {
 		  image = null;
@@ -249,7 +250,11 @@ public class Abstractanator extends JComponent
 	  image = getCopy(unfold);
 	  historylist.add(0, (new AbstractImage(getCopy(image), thumbnail(75, 75), fold, inGrayscale, foldPosition)));
 	  
+	  abstractinate(RANDOMIZE, 10);
+	  
 	  this.revalidate();
+	  
+	  unfold();
   }
 
   /** Unfolds an image. This will only be called if the image is folded.
@@ -264,8 +269,18 @@ public class Abstractanator extends JComponent
 	 int foldheight = fold.getHeight();
 	 int unfoldwidth = unfold.getWidth();
 	 int unfoldheight = unfold.getHeight();
+	 int totalwidth = foldwidth + unfoldwidth;
+	 int totalheight = foldheight + unfoldheight;
 	 
-	 BufferedImage concatImg = new BufferedImage(foldwidth + unfoldwidth, foldheight + unfoldheight, fold.getType());
+	 //Avoiding excessive width or height.
+	 if (foldPosition == AbstractImage.LEFT_FOLD || foldPosition == AbstractImage.RIGHT_FOLD) {
+		 totalheight /= 2;
+	 }
+	 else {
+		 totalwidth /= 2;
+	 }
+	 
+	 BufferedImage concatImg = new BufferedImage(totalwidth, totalheight, fold.getType());
 	 Graphics2D g = concatImg.createGraphics();
 	 
 	 switch (foldPosition) {
