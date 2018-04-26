@@ -250,21 +250,19 @@ public final class View extends JFrame
   */
   public void goBack()
   {
-    System.out.println("Attempting to go back");
+    System.out.println("Attempting to go back...");
     // If there is something in the history, set the current abstract
-    // image to the most recent abstract image
-    for (int i = historyList.size() - 1; i >= 0; i--) {
-      if (historyList.get(i) != null) {
-        this.abstractanator.setImage(historyList.get(i).getImg());
-        // Update history list and history list display
-        historyList.remove(i);
-        updateHistoryList();
-        this.repaint();
-        break;
-      }
-      else {
-        System.out.println("No more images in history");
-      }
+    // image to the most recent abstract image, then remove that abstract
+    // image from the history
+    if (historyList.size() != 0) {
+      this.abstractanator.setImage(historyList.get(0).getImg());
+      historyList.remove(0);
+      // Update the thumbnails to show the new history minus the most previous image
+      updateHistoryList();
+      this.repaint();
+    }
+    else {
+      System.out.println("Can't go back any further");
     }
   }
 
@@ -434,14 +432,14 @@ public final class View extends JFrame
   {
     System.out.println("updateHistoryList entered");
     // Retrieve the most up-to-date history list from the Abstractanator
-    historyList = abstractanator.getHistory();
+    historyList = this.abstractanator.getHistory();
 
     thumbnailPanel.removeAll();
 
     for (int i = 0; i < historyList.size(); i++) {
-      if (historyList.get(i) != null) {
+      if (historyList.get(i) != null && i < 5) {
         // Create a JLabel with the AbstractImage as the icon of the label
-        BufferedImage thumbnail = historyList.get(i).getThumbNail();
+        BufferedImage thumbnail = historyList.get(i).getThumbnail();
         ImageIcon prevImgIcon = new ImageIcon(thumbnail);
         JLabel prevImg = new JLabel();
         prevImg.setIcon(prevImgIcon);

@@ -160,7 +160,7 @@ public class Abstractanator extends JComponent
       g.dispose();
       return thumbnail;
   }
-  
+
   /** "Folds" the image. Spits the image in half according to the fold position, then makes the next AbstractImage hold both.
    * <p>Any further abstract functions only act on the unfolded part. The fold is always smaller.
    * @param foldPosition The position from which the image is to be folded. See AbstractImage for more details.
@@ -169,11 +169,11 @@ public class Abstractanator extends JComponent
 	  //First we need copy destinations for the image and the folded portion.
 	  BufferedImage fold;
 	  BufferedImage unfold;
-	  
+
 	  //Then how the image gets drawn depends on the foldPosition.
 	  switch (foldPosition) {
 	  case AbstractImage.LEFT_FOLD:
-		  
+
 		  break;
 	  case AbstractImage.RIGHT_FOLD:
 		  break;
