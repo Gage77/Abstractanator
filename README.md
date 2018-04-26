@@ -19,16 +19,13 @@
 - [X] Complete color randomizer function
 - [X] Complete black/white function
 - [X] Complete folding function
-- [X] Complete geometric function
 - [ ] Consider other abstraction functions
-- [ ] Hookup interaction with RGB button to color randomizer function
-- [ ] Hookup interaction with BW button to b/w function
-- [ ] Hookup interaction with Geometric button with geometric function
-- [ ] Hookup interaction with Folding button with folding function
-- [ ] Setup folding window
-- [ ] Implement importing image
-- [ ] Implement exporting/saving image
-- [ ] History panel
+- [X] Hookup interaction with RGB button to color randomizer function
+- [X] Hookup interaction with BW button to b/w function
+- [X] Hookup interaction with Folding button with folding function
+- [X] Implement importing image
+- [X] Implement exporting/saving image
+- [X] History panel
 - [ ] Cleanup window and make it colorful / nice looking
 
 ## Overall Process:
