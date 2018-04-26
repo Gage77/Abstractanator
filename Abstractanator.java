@@ -289,8 +289,8 @@ public class Abstractanator extends JComponent
 	 
 	 g.dispose();
 	 
-	 image = concatImg;
-	
+	 image = getCopy(concatImg);
+	 historylist.add(0, new AbstractImage(getCopy(image), thumbnail(75,75), null, false, 0));
 	 
 	 this.revalidate();
   }
