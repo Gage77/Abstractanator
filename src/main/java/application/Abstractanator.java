@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -160,28 +161,56 @@ public class Abstractanator extends JComponent
       g.dispose();
       return thumbnail;
   }
-
+  
+  /** States whether the given dimension is even.
+   * 
+   * @param dim The dimension being tested.
+   * @return True if even.
+   */
+  private boolean isEven(int dim) {
+	  return (dim % 2 == 0 ? true : false);
+  }
+  
   /** "Folds" the image. Spits the image in half according to the fold position, then makes the next AbstractImage hold both.
-   * <p>Any further abstract functions only act on the unfolded part. The fold is always smaller.
+   * <p>Any further abstract functions only act on the unfolded part.
    * @param foldPosition The position from which the image is to be folded. See AbstractImage for more details.
    */
   public void Fold(int foldPosition) {
-	  //First we need copy destinations for the image and the folded portion.
+	  //First we need copy destinations for the image and the folded portion, as well as a temp that holds the images.
 	  BufferedImage fold;
 	  BufferedImage unfold;
-
+	  BufferedImage temp;
+	  Rectangle foldRect = null;
+	  Rectangle unfoldRect = null;
+	  
+	  int w = image.getWidth();
+	  int h = image.getHeight();
+	  
+	  //We also need a graphics.
+	  Graphics g = null;
+	  
 	  //Then how the image gets drawn depends on the foldPosition.
 	  switch (foldPosition) {
 	  case AbstractImage.LEFT_FOLD:
-
+		  foldRect = new Rectangle(0, 0, w / 2, h);
+		  unfoldRect = new Rectangle(w / 2, 0, 
+				  				    (isEven(w) ? w / 2 : w / 2 + 1), h);
 		  break;
 	  case AbstractImage.RIGHT_FOLD:
+		  foldRect = new Rectangle(w / 2, 0, (isEven(w) ? w / 2 : w / 2 + 1), h);
+		  unfoldRect = new Rectangle(0, 0, w/ 2, h);
 		  break;
 	  case AbstractImage.TOP_FOLD:
+		  foldRect = new Rectangle(0, 0, w, h / 2);
+		  unfoldRect = new Rectangle(0, h / 2, w, (isEven(h) ? h / 2: h / 2 + 1));
 		  break;
 	  case AbstractImage.BOTTOM_FOLD:
+		  foldRect = new Rectangle(0, h / 2, w, (isEven(h) ? h / 2 : h / 2 + 1));
+		  unfoldRect = new Rectangle(0, 0, w, h /2);
 		  break;
 	  }
+	  
+	  g.dispose();
   }
 
 	/****************************************
