@@ -65,8 +65,17 @@ public class Abstractanator extends JComponent
 	public void setImage(BufferedImage imageIn)
 	{
 		this.image = imageIn;
-    this.revalidate();
+		this.revalidate();
 		System.out.println("Abstractanator image set");
+		historylist.add(0, new AbstractImage(getCopy(image), thumbnail(75, 75), null, false, 0));
+	}
+
+	private BufferedImage getCopy(BufferedImage img) {
+		BufferedImage copy = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+		Graphics2D g = copy.createGraphics();
+		g.drawImage(img, 0, 0, null);
+		g.dispose();
+		return copy;
 	}
 
   public void setGrayscale(boolean grayscale)
@@ -141,10 +150,25 @@ public class Abstractanator extends JComponent
       }
     }
     // The image gets added to the front
-    historylist.add(0, (new AbstractImage(image, thumbnail(75, 75), inGrayscale)));
+    historylist.add(0, (new AbstractImage(getCopy(image), thumbnail(75, 75), historylist.get(0).getFold(), inGrayscale, historylist.get(0).getOffset())));
 
     // Tell AWT that this panel's info has changed, so redraw it
     this.revalidate();
+  }
+
+  /** Removes the first image in the thumbnails, sets the abstractanator image to the next one.
+   *
+   */
+  public void removeFront() {
+	  historylist.remove(0);
+	  if (historylist.size() > 0) {
+		  image = getCopy(historylist.get(0).getImg());
+		  this.revalidate();
+	  }
+	  else {
+		  image = null;
+		  this.revalidate();
+	  }
   }
 
   /** Gets the thumbnail of the abstract image.
@@ -157,43 +181,43 @@ public class Abstractanator extends JComponent
   {
     BufferedImage thumbnail = new BufferedImage(width, height, image.getType());
     Graphics2D g = thumbnail.createGraphics();
-      g.drawImage(image, 0, 0, width, height, null);
-      g.dispose();
-      return thumbnail;
+    g.drawImage(image, 0, 0, width, height, null);
+    g.dispose();
+    return thumbnail;
   }
-  
+
   /** States whether the given dimension is even.
-   * 
+   *
    * @param dim The dimension being tested.
    * @return True if even.
    */
   private boolean isEven(int dim) {
 	  return (dim % 2 == 0 ? true : false);
   }
-  
+
   /** "Folds" the image. Spits the image in half according to the fold position, then makes the next AbstractImage hold both.
    * <p>Any further abstract functions only act on the unfolded part.
    * @param foldPosition The position from which the image is to be folded. See AbstractImage for more details.
    */
-  public void Fold(int foldPosition) {
+  public void fold(int foldPosition) {
 	  //First we need copy destinations for the image and the folded portion, as well as a temp that holds the images.
 	  BufferedImage fold;
 	  BufferedImage unfold;
 	  BufferedImage temp;
 	  Rectangle foldRect = null;
 	  Rectangle unfoldRect = null;
-	  
+
 	  int w = image.getWidth();
 	  int h = image.getHeight();
-	  
+
 	  //We also need a graphics.
 	  Graphics g = null;
-	  
+
 	  //Then how the image gets drawn depends on the foldPosition.
 	  switch (foldPosition) {
 	  case AbstractImage.LEFT_FOLD:
 		  foldRect = new Rectangle(0, 0, w / 2, h);
-		  unfoldRect = new Rectangle(w / 2, 0, 
+		  unfoldRect = new Rectangle(w / 2, 0,
 				  				    (isEven(w) ? w / 2 : w / 2 + 1), h);
 		  break;
 	  case AbstractImage.RIGHT_FOLD:
@@ -209,8 +233,81 @@ public class Abstractanator extends JComponent
 		  unfoldRect = new Rectangle(0, 0, w, h /2);
 		  break;
 	  }
-	  
+
+	  //Initilizing fold
+	  temp = image.getSubimage(foldRect.x, foldRect.y, (int)foldRect.getWidth(), (int)foldRect.getHeight());
+	  fold = new BufferedImage(temp.getWidth(), temp.getHeight(), temp.getType());
+	  g = fold.createGraphics();
+	  g.drawImage(temp, 0, 0, null);
+
+	  temp = image.getSubimage(unfoldRect.x, unfoldRect.y, (int)unfoldRect.getWidth(), (int)unfoldRect.getHeight());
+	  unfold = new BufferedImage(temp.getWidth(), temp.getHeight(), temp.getType());
+	  g = unfold.createGraphics();
+	  g.drawImage(temp, 0, 0, null);
+
 	  g.dispose();
+
+	  image = getCopy(unfold);
+	  historylist.add(0, (new AbstractImage(getCopy(image), thumbnail(75, 75), fold, inGrayscale, foldPosition)));
+
+	  abstractinate(RANDOMIZE, 10);
+
+	  this.revalidate();
+
+	  unfold();
+  }
+
+  /** Unfolds an image. This will only be called if the image is folded.
+   *
+   */
+  public void unfold() {
+	 BufferedImage fold = getCopy(historylist.get(0).getFold());
+	 BufferedImage unfold = getCopy(historylist.get(0).getImg());
+	 int foldPosition = historylist.get(0).getOffset();
+
+	 int foldwidth = fold.getWidth();
+	 int foldheight = fold.getHeight();
+	 int unfoldwidth = unfold.getWidth();
+	 int unfoldheight = unfold.getHeight();
+	 int totalwidth = foldwidth + unfoldwidth;
+	 int totalheight = foldheight + unfoldheight;
+
+	 //Avoiding excessive width or height.
+	 if (foldPosition == AbstractImage.LEFT_FOLD || foldPosition == AbstractImage.RIGHT_FOLD) {
+		 totalheight /= 2;
+	 }
+	 else {
+		 totalwidth /= 2;
+	 }
+
+	 BufferedImage concatImg = new BufferedImage(totalwidth, totalheight, fold.getType());
+	 Graphics2D g = concatImg.createGraphics();
+
+	 switch (foldPosition) {
+	 case AbstractImage.LEFT_FOLD:
+		 g.drawImage(fold, 0, 0, null);
+		 g.drawImage(unfold, foldwidth, 0, null);
+		 break;
+	 case AbstractImage.RIGHT_FOLD:
+		 g.drawImage(fold, unfoldwidth, 0, null);
+		 g.drawImage(unfold, 0, 0, null);
+		 break;
+	 case AbstractImage.TOP_FOLD:
+		 g.drawImage(fold, 0, 0, null);
+		 g.drawImage(unfold, 0, foldheight, null);
+		 break;
+	 case AbstractImage.BOTTOM_FOLD:
+		 g.drawImage(fold, 0, unfoldheight, null);
+		 g.drawImage(unfold, 0, 0, null);
+		 break;
+	 }
+
+	 g.dispose();
+
+	 image = getCopy(concatImg);
+	 historylist.add(0, new AbstractImage(getCopy(image), thumbnail(75,75), null, false, 0));
+
+	 this.revalidate();
   }
 
 	/****************************************

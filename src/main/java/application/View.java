@@ -27,8 +27,6 @@ public final class View extends JFrame
   * Private class variables
   ****************************************/
 
-  private ArrayList<AbstractImage> historyList;
-
   private static int h = 0;
   private static int w = 0;
   private static Abstractanator abstractanator;
@@ -99,7 +97,6 @@ public final class View extends JFrame
 
     // Initialize Abstractanator and history list to hold old images
     abstractanator = new Abstractanator();
-    historyList = new ArrayList<AbstractImage>(5);
 
     /****************************************
 		* Setup all internal panels for the View
@@ -173,7 +170,8 @@ public final class View extends JFrame
       File imageFile = fc.getSelectedFile();
       image = ImageIO.read(imageFile);
       System.out.println("Image file loaded successfully");
-      this.abstractanator.setImage(image);
+      abstractanator.setImage(image);
+      updateHistoryList();
     } catch (Exception e) {
       System.out.println("Error reading image file");
     }
@@ -245,6 +243,18 @@ public final class View extends JFrame
     this.repaint();
   }
 
+  public void foldAbstraction()
+  {
+    // Get fold position
+    int foldPosition = (int)foldSpin.getValue();
+    abstractanator.fold(foldPosition);
+
+    // Update history
+    updateHistoryList();
+    // Repaint the changed image
+    this.repaint();
+  }
+
   /**
   * Adjust the current image by going back in history
   */
@@ -254,9 +264,11 @@ public final class View extends JFrame
     // If there is something in the history, set the current abstract
     // image to the most recent abstract image, then remove that abstract
     // image from the history
+
+    ArrayList<AbstractImage> historyList = abstractanator.getHistory();
+
     if (historyList.size() != 0) {
-      this.abstractanator.setImage(historyList.get(0).getImg());
-      historyList.remove(0);
+      abstractanator.removeFront();
       // Update the thumbnails to show the new history minus the most previous image
       updateHistoryList();
       this.repaint();
@@ -403,8 +415,8 @@ public final class View extends JFrame
       minSpin, maxSpin, stepSpin);
     SpinnerNumberModel colPolModel = new SpinnerNumberModel(initialSpin,
       minSpin, maxSpin, stepSpin);
-    SpinnerNumberModel foldModel = new SpinnerNumberModel(initialSpin,
-      minSpin, maxSpin, stepSpin);
+    SpinnerNumberModel foldModel = new SpinnerNumberModel(1,
+      1, 4, stepSpin);
 
     // Create all necessary spinners
     rgbSpin = new JSpinner(rgbModel);
@@ -432,12 +444,19 @@ public final class View extends JFrame
   {
     System.out.println("updateHistoryList entered");
     // Retrieve the most up-to-date history list from the Abstractanator
-    historyList = this.abstractanator.getHistory();
+    ArrayList<AbstractImage>historyList = this.abstractanator.getHistory();
 
     thumbnailPanel.removeAll();
 
     for (int i = 0; i < historyList.size(); i++) {
       if (historyList.get(i) != null && i < 5) {
+        if (historyList.get(0).getFold() != null) {
+          foldButton.setText("Unfold");
+        }
+        else if (historyList.get(0).getFold() == null) {
+          foldButton.setText("Fold");
+        }
+
         // Create a JLabel with the AbstractImage as the icon of the label
         BufferedImage thumbnail = historyList.get(i).getThumbnail();
         ImageIcon prevImgIcon = new ImageIcon(thumbnail);

@@ -113,6 +113,8 @@ public class Controller
     public void actionPerformed(ActionEvent arg0)
     {
       System.out.println("Fold button pushed");
+
+      theView.foldAbstraction();
     }
   }
 
